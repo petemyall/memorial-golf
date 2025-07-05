@@ -189,12 +189,12 @@ footer {
     font-size: 13px;
   }
 .site-logo {
-  width: 100px;
-  top: 3.25vh;
+  width: 120px;
+  top: 2vh;
   
 }
 .golf-day {
-  height: 65vh;
+  height: 60vh;
   overflow-y: auto;
 }
 }

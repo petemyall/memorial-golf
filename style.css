@@ -167,7 +167,8 @@ footer {
     font-size: 15px;
   }
   .header {
-    height: 120px;
+    height: 125px;
+  }
   h1 {
     font-size: 25px;
   }
@@ -188,11 +189,12 @@ footer {
     font-size: 13px;
   }
 .site-logo {
-  width: 60px;
+  width: 80px;
   top: 6.5vh;
   
 }
 .golf-day {
-  height: 60vh;
+  height: 50vh;
   overflow-y: auto;
+}
 }

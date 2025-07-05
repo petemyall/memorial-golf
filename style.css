@@ -178,6 +178,8 @@ footer {
   }
 .site-logo {
   width: 60px;
+  top: 2.0vh;
+  
 }
 .golf-day {
   overflow-y: auto;

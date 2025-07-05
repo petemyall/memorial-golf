@@ -112,6 +112,7 @@ img {
   max-width: 700px;
   margin: 20px auto;
   border-radius: 10px;
+  overflow-y: auto;
 }
 
 .golf-day h2 {

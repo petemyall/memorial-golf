@@ -166,6 +166,8 @@ footer {
   body {
     font-size: 15px;
   }
+  .header {
+    height: 120px;
   h1 {
     font-size: 25px;
   }
@@ -191,6 +193,6 @@ footer {
   
 }
 .golf-day {
-  height: 65vh;
+  height: 60vh;
   overflow-y: auto;
 }

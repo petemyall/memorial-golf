@@ -182,5 +182,6 @@ footer {
   
 }
 .golf-day {
+  height: 45vh;
   overflow-y: auto;
 }

@@ -163,6 +163,8 @@ footer {
   body {
     font-size: 15px;
   }
+  h1 {
+    font-size: 25px;
 
   .container {
     padding: 10px;
@@ -178,7 +180,7 @@ footer {
   }
 .site-logo {
   width: 60px;
-  top: 5.0vh;
+  top: 6.5vh;
   
 }
 .golf-day {

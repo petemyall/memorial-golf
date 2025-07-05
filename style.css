@@ -47,6 +47,9 @@ h1 {
   padding-left: 30px;
   color: #2e7d32;
 }
+.mobile-break {
+  display: none;
+}
 
 /* Paragraphs */
 p {
@@ -165,6 +168,10 @@ footer {
   }
   h1 {
     font-size: 25px;
+  }
+  .mobile-break {
+    display: inline;
+  }
 
   .container {
     padding: 10px;

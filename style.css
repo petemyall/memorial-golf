@@ -1,4 +1,4 @@
-/* style.css — Responsive Starter Styles */
+9/* style.css — Responsive Starter Styles */
 
 /* Reset */
 * {
@@ -260,7 +260,7 @@ footer {
   
 }
 .golf-day {
-  height: 61.5vh;
+  height: 55vh;
   overflow-y: auto;
 }
 }

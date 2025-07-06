@@ -34,6 +34,34 @@
 
   <p>Then it’s back out for another <strong>9 holes on the New Course</strong> to round off the day. Expect plenty of laughs, a few heroic shots (and a few not-so-heroic ones), and a great day of golf with good mates.</p>
 </section>
+<button id="openMapBtn">View Course Map</button>
+
+<!-- Pop-up modal -->
+<div id="mapModal" class="modal">
+  <div class="modal-content">
+  <div id="mapModal" class="modal" style="display: none; display: flex;">
+    <span class="close">&times;</span>
+    <img src="images/course-map.png" alt="Billingbear Park Golf Course Map" class="map-image">
+  </div>
+</div><script>
+  const modal = document.getElementById("mapModal");
+  const btn = document.getElementById("openMapBtn");
+  const span = document.querySelector(".close");
+
+  btn.onclick = () => {
+    modal.style.display = "flex";
+  }
+
+  span.onclick = () => {
+    modal.style.display = "none";
+  }
+
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 
 </body>
 </html>

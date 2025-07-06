@@ -110,7 +110,7 @@ img {
 .golf-day {
   background-color: rgba(148,232,255,0.7);
   border-left: 6px solid #4CAF50;
-  padding: 20px;
+  padding: 5px;
   line-height: 1.6;
   max-width: 700px;
   margin: 20px auto;
@@ -124,6 +124,66 @@ img {
 .golf-day strong {
   color: #333;
 }
+
+/* Modal base styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0; /* shorthand for top, left, bottom, right = 0 */
+  background-color: rgba(0,0,0,0.2);
+  justify-content: center; /* align modal content horizontally */
+  align-items: center;     /* align modal content vertically */
+}
+
+/* Modal content box (responsive & centred) */
+
+.modal-content {
+  background-color: rgba(148,232,255,0.95);
+  border-left: 6px solid #4CAF50;
+  width: 98vw;              /* nearly full screen width */
+  max-width: 1100px;        /* slightly less than your image width */
+  height: auto;
+  max-height: 90vh;         /* max vertical size */
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.map-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 85vh;
+  display: block;
+  margin: auto;
+  object-fit: contain;
+}
+
+/* Close (X) button */
+.close {
+  color: #aaa;
+  font-size: 48px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+ #openMapBtn {
+    font-size: 1rem;
+    padding: 8px 16px;
+    background-color: rgba(148,232,255,0.7);
+    border-left: 6px solid #4CAF50;
+    border-radius: 10px;
+  }
+
 
 /* Navigation */
 nav {
@@ -160,9 +220,15 @@ footer {
     display: inline-block;
     margin-bottom: 10px;
   }
+ .modal-content {
+    padding: 5px;
+  }
+
+
+ 
 }
 
-@media (max-width: 480px) {
+@media (max-width: 599px) {
   body {
     font-size: 15px;
   }

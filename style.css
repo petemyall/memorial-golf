@@ -1,4 +1,4 @@
-9/* style.css — Responsive Starter Styles */
+/* style.css — Responsive Starter Styles */
 
 /* Reset */
 * {
@@ -22,7 +22,7 @@ body {
 }
 
 .header {
-  top: 1.5vh;
+  top: 1.25vh;
   width: 100%;
   max-width: 960px;
   height: 100px;

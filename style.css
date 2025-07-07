@@ -231,7 +231,7 @@ footer {
     font-size: 15px;
   }
   .header {
-    height: 125px;
+    min-height: 125px;
   }
   h1 {
     font-size: 25px;

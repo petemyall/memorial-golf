@@ -312,7 +312,9 @@ footer {
  .modal-content {
     padding: 5px;
   }
-
+  .link-box {
+    width: 42vw;
+  }
 
  
 }

@@ -40,7 +40,7 @@
       font-weight: bold;
       background-color: #e8f5e9;
     }
-    .button-reset, .button-leaderboard {
+    .button-reset {
       margin: 10px auto;
       display: block;
       font-size: 1rem;
@@ -49,29 +49,6 @@
       background-color: rgba(148,232,255,0.7);
       border-left: 6px solid #4CAF50;
       border-radius: 10px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      inset: 0;
-      background-color: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 90vw;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .close {
-      float: right;
-      cursor: pointer;
-      font-size: 20px;
-      margin-top: -10px;
     }
     td:first-child, th:first-child {
       position: sticky;
@@ -83,28 +60,19 @@
 </head>
 <body>
   <div class="container">
-    <h1>Live Scorecard</h1><div class="group-heading">Old Course - The Whippersnappers</div>
+    <h1>Live Scorecard</h1><div class="group-heading">The Whippersnappers - Old Course</div>
 <div class="scorecard" id="oldGroup1"></div>
 
-<div class="group-heading">Old Course - The Legends</div>
-<div class="scorecard" id="oldGroup2"></div>
-
-<div class="group-heading">New Course - The Whippersnappers</div>
+<div class="group-heading">The Whippersnappers - New Course</div>
 <div class="scorecard" id="newGroup1"></div>
 
-<div class="group-heading">New Course - The Legends</div>
+<div class="group-heading">The Legends - Old Course</div>
+<div class="scorecard" id="oldGroup2"></div>
+
+<div class="group-heading">The Legends - New Course</div>
 <div class="scorecard" id="newGroup2"></div>
 
 <button class="button-reset" onclick="resetScores()">Clear All Scores</button>
-<button class="button-leaderboard" onclick="showLeaderboard()">Show Leaderboard</button>
-
-<div id="leaderboardModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="hideLeaderboard()">&times;</span>
-    <h2>Leaderboard</h2>
-    <ol id="leaderList"></ol>
-  </div>
-</div>
 
   </div>  <script>
     const players = [
@@ -185,19 +153,6 @@
         const round = cell.dataset.round;
         cell.textContent = scores[name][round];
       });
-
-      const leaderboard = Object.entries(scores).map(([name, val]) => ({
-        name,
-        total: val.old + val.new
-      })).sort((a, b) => a.total - b.total);
-
-      const list = document.getElementById('leaderList');
-      list.innerHTML = '';
-      leaderboard.forEach(entry => {
-        const li = document.createElement('li');
-        li.textContent = `${entry.name}: ${entry.total}`;
-        list.appendChild(li);
-      });
     }
 
     function resetScores() {
@@ -209,14 +164,6 @@
         localStorage.removeItem(`${name}_${round}_${hole}`);
       });
       updateScores();
-    }
-
-    function showLeaderboard() {
-      document.getElementById('leaderboardModal').style.display = 'flex';
-    }
-
-    function hideLeaderboard() {
-      document.getElementById('leaderboardModal').style.display = 'none';
     }
 
     function restoreScores() {
@@ -234,8 +181,8 @@
     }
 
     createTable('oldGroup1', 1, 'old');
-    createTable('oldGroup2', 2, 'old');
     createTable('newGroup1', 1, 'new');
+    createTable('oldGroup2', 2, 'old');
     createTable('newGroup2', 2, 'new');
     restoreScores();
   </script></body>

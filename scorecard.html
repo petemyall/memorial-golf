@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golf Scorecard - Dave Snr Memorial Golf Society</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    table {
+      width: 100%;
+      margin-bottom: 30px;
+      border-collapse: collapse;
+      background-color: rgba(255,255,255,0.95);
+    }
+    th, td {
+      border: 1px solid #4CAF50;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: rgba(148,232,255,0.5);
+      color: #2e7d32;
+    }
+    input[type="number"] {
+      width: 50px;
+      padding: 4px;
+      text-align: center;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .group-heading {
+      text-align: center;
+      font-size: 1.3em;
+      margin: 20px 0 10px;
+      color: #2e7d32;
+    }
+    .totals {
+      font-weight: bold;
+      background-color: #e8f5e9;
+    }
+    #leaderboard {
+      margin-top: 40px;
+    }
+    .button-reset {
+      margin: 20px auto;
+      display: block;
+      font-size: 1rem;
+      color: #2e7d32;
+      padding: 10px 20px;
+      background-color: rgba(148,232,255,0.7);
+      border-left: 6px solid #4CAF50;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Live Scorecard</h1><div class="group-heading">The Whippersnappers</div>
+<div id="group1"></div>
+
+<div class="group-heading">The Legends</div>
+<div id="group2"></div>
+
+<button class="button-reset" onclick="resetScores()">Clear All Scores</button>
+
+<div id="leaderboard" class="golf-day">
+  <h2>Leaderboard</h2>
+  <ol id="leaderList"></ol>
+</div>
+
+  </div>  <script>
+    const players = [
+      { name: "Dave", group: 1 },
+      { name: "Jack", group: 1 },
+      { name: "Rich", group: 1 },
+      { name: "Wayne", group: 1 },
+      { name: "Geoff", group: 2 },
+      { name: "Jim", group: 2 },
+      { name: "Pete", group: 2 },
+      { name: "Steve", group: 2 }
+    ];
+
+    function createTable(groupId, groupNumber) {
+      const div = document.getElementById(groupId);
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      const headerRow = document.createElement('tr');
+      headerRow.innerHTML = '<th>Player</th>' +
+        Array.from({length: 9}, (_, i) => `<th>Old ${i+1}</th>`).join('') +
+        Array.from({length: 9}, (_, i) => `<th>New ${i+1}</th>`).join('') +
+        '<th>Total</th>';
+      thead.appendChild(headerRow);
+
+      players.filter(p => p.group === groupNumber).forEach(p => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${p.name}</td>`;
+
+        for (let i = 0; i < 18; i++) {
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.min = 1;
+          input.max = 20;
+          input.addEventListener('input', updateScores);
+          const td = document.createElement('td');
+          td.appendChild(input);
+          row.appendChild(td);
+        }
+
+        const totalCell = document.createElement('td');
+        totalCell.className = 'totals';
+        totalCell.textContent = '0';
+        row.appendChild(totalCell);
+
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      div.appendChild(table);
+    }
+
+    function updateScores() {
+      const rows = document.querySelectorAll('table tbody tr');
+      const scores = [];
+      rows.forEach(row => {
+        const name = row.children[0].textContent;
+        let total = 0;
+        for (let i = 1; i <= 18; i++) {
+          const val = parseInt(row.children[i].firstChild.value);
+          if (!isNaN(val)) total += val;
+        }
+        row.children[19].textContent = total;
+        scores.push({ name, total });
+      });
+
+      scores.sort((a, b) => a.total - b.total);
+      const leaderboard = document.getElementById('leaderList');
+      leaderboard.innerHTML = '';
+      scores.forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = `${s.name}: ${s.total}`;
+        leaderboard.appendChild(li);
+      });
+    }
+
+    function resetScores() {
+      document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+      updateScores();
+    }
+
+    createTable('group1', 1);
+    createTable('group2', 2);
+  </script>
+</body>
+</html>

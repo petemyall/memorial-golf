@@ -263,6 +263,7 @@ background-color: rgba(148,232,255,0.7);
 .link-box {
   flex: 1 1 200px;
   padding: 15px;
+  max-width: 45vw;
   background-color: rgba(148, 232, 255, 0.9);
   border-left: 6px solid #4CAF50;
   border-radius: 10px;

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Kids Scorecard</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .scorecard {
+      overflow-x: auto;
+      margin-bottom: 30px;
+    }
+    table {
+      border-collapse: collapse;
+      background-color: rgba(255,255,255,0.95);
+      min-width: max-content;
+    }
+    th, td {
+      border: 1px solid #4CAF50;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: rgba(148,232,255,0.5);
+      color: #2e7d32;
+    }
+    input[type="number"] {
+      width: 50px;
+      padding: 4px;
+      text-align: center;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .group-heading {
+      text-align: center;
+      font-size: 1.3em;
+      margin: 20px 0 10px;
+      color: #2e7d32;
+    }
+    .totals {
+      font-weight: bold;
+      background-color: #e8f5e9;
+    }
+    .button-reset {
+      margin: 10px auto;
+      display: block;
+      font-size: 1rem;
+      color: #2e7d32;
+      padding: 10px 20px;
+      background-color: rgba(148,232,255,0.7);
+      border-left: 6px solid #4CAF50;
+      border-radius: 10px;
+    }
+    td:first-child, th:first-child {
+      position: sticky;
+      left: 0;
+      background-color: rgba(255,255,255,0.95);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>New Kids Scorecard</h1>
+
+    <div class="group-heading">Old Course</div>
+    <div class="scorecard" id="oldGroup"></div>
+
+    <div class="group-heading">New Course</div>
+    <div class="scorecard" id="newGroup"></div>
+
+    <button class="button-reset" onclick="resetScores()">Clear All Scores</button>
+  </div>
+
+  <script>
+    const players = ["Dave", "Jack", "Rich", "Wayne"];
+
+    function createTable(containerId, roundPrefix) {
+      const div = document.getElementById(containerId);
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+
+      const headerRow = document.createElement('tr');
+      headerRow.innerHTML = '<th>Player</th>' +
+        Array.from({length: 9}, (_, i) => `<th>${i+1}</th>`).join('') +
+        '<th>Subtotal</th>';
+      thead.appendChild(headerRow);
+
+      players.forEach(name => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${name}</td>`;
+
+        for (let i = 0; i < 9; i++) {
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.min = 1;
+          input.max = 20;
+          input.dataset.player = name;
+          input.dataset.round = roundPrefix;
+          input.dataset.hole = i;
+          input.addEventListener('input', updateScores);
+          const td = document.createElement('td');
+          td.appendChild(input);
+          row.appendChild(td);
+        }
+
+        const totalCell = document.createElement('td');
+        totalCell.className = 'totals';
+        totalCell.textContent = '0';
+        totalCell.dataset.player = name;
+        totalCell.dataset.round = roundPrefix;
+        row.appendChild(totalCell);
+
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      div.appendChild(table);
+    }
+
+    function updateScores() {
+      const scores = {};
+      players.forEach(name => scores[name] = { old: 0, new: 0 });
+
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        const val = parseInt(input.value);
+        if (!isNaN(val)) {
+          const name = input.dataset.player;
+          const round = input.dataset.round;
+          const hole = input.dataset.hole;
+          scores[name][round] += val;
+          const key = `${name}_${round}_${hole}`;
+          localStorage.setItem(key, val);
+        }
+      });
+
+      document.querySelectorAll('.totals').forEach(cell => {
+        const name = cell.dataset.player;
+        const round = cell.dataset.round;
+        cell.textContent = scores[name][round];
+      });
+    }
+
+    function resetScores() {
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.value = '';
+        const name = input.dataset.player;
+        const round = input.dataset.round;
+        const hole = input.dataset.hole;
+        localStorage.removeItem(`${name}_${round}_${hole}`);
+      });
+      updateScores();
+    }
+
+    function restoreScores() {
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        const name = input.dataset.player;
+        const round = input.dataset.round;
+        const hole = input.dataset.hole;
+        const key = `${name}_${round}_${hole}`;
+        const saved = localStorage.getItem(key);
+        if (saved !== null) {
+          input.value = saved;
+        }
+      });
+      updateScores();
+    }
+
+    createTable('oldGroup', 'old');
+    createTable('newGroup', 'new');
+    restoreScores();
+  </script>
+</body>
+</html>

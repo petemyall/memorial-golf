@@ -10,10 +10,9 @@
       margin-bottom: 30px;
     }
     table {
-      width: max-content;
-      min-width: 100%;
       border-collapse: collapse;
       background-color: rgba(255,255,255,0.95);
+      min-width: max-content;
     }
     th, td {
       border: 1px solid #4CAF50;
@@ -73,6 +72,12 @@
       cursor: pointer;
       font-size: 20px;
       margin-top: -10px;
+    }
+    td:first-child, th:first-child {
+      position: sticky;
+      left: 0;
+      background-color: rgba(255,255,255,0.95);
+      z-index: 1;
     }
   </style>
 </head>
@@ -167,7 +172,11 @@
         if (!isNaN(val)) {
           const name = input.dataset.player;
           const round = input.dataset.round;
+          const hole = input.dataset.hole;
           scores[name][round] += val;
+
+          const key = `${name}_${round}_${hole}`;
+          localStorage.setItem(key, val);
         }
       });
 
@@ -192,7 +201,13 @@
     }
 
     function resetScores() {
-      document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.value = '';
+        const name = input.dataset.player;
+        const round = input.dataset.round;
+        const hole = input.dataset.hole;
+        localStorage.removeItem(`${name}_${round}_${hole}`);
+      });
       updateScores();
     }
 
@@ -204,9 +219,24 @@
       document.getElementById('leaderboardModal').style.display = 'none';
     }
 
+    function restoreScores() {
+      document.querySelectorAll('input[type="number"]').forEach(input => {
+        const name = input.dataset.player;
+        const round = input.dataset.round;
+        const hole = input.dataset.hole;
+        const key = `${name}_${round}_${hole}`;
+        const saved = localStorage.getItem(key);
+        if (saved !== null) {
+          input.value = saved;
+        }
+      });
+      updateScores();
+    }
+
     createTable('oldGroup1', 1, 'old');
     createTable('oldGroup2', 2, 'old');
     createTable('newGroup1', 1, 'new');
     createTable('newGroup2', 2, 'new');
+    restoreScores();
   </script></body>
 </html>

@@ -333,7 +333,7 @@ footer {
   }
 
   .link-box {
-    flex: 1 1 calc (50%-20px);
+    flex: 1 1 calc (45%-20px);
     max-width: 100%; /* allow flexbox to do the layout */
   }
 }

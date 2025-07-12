@@ -334,8 +334,11 @@ footer {
     overflow-y: auto;
   }
 
-  .link-box {
-    flex: 1 1 calc(45% - 20px);
-    max-width: 100%; /* allow flexbox to do the layout */
+  .link-grid {
+    gap: 10px; /* smaller gap for tighter layout */
   }
+
+  .link-box {
+    flex: 1 1 48%;
+    max-width: 48%;
 }

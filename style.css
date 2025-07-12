@@ -262,9 +262,9 @@ background-color: rgba(148,232,255,0.7);
 }
 
 .link-box {
-  flex: 1 1 200px;
+  flex: 1 1 40%;
   padding: 15px;
-  max-width: 45vw;
+  max-width: 300px;
   background-color: rgba(148, 232, 255, 0.8);
   border-left: 6px solid #4CAF50;
   border-radius: 10px;
@@ -314,7 +314,8 @@ footer {
     padding: 5px;
   }
   .link-box {
-    width: 35vw;
+    flex: 1 1 45%;
+    width: 45%;
   }
 
  

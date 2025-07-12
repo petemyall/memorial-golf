@@ -341,4 +341,5 @@ footer {
   .link-box {
     flex: 1 1 48%;
     max-width: 48%;
+    background-color: red;
 }

@@ -346,6 +346,7 @@ footer {
     background-size: fit;
   }
   .header {
+    width: 95%;
     max-width: 580px;
   }
 
@@ -387,6 +388,7 @@ footer {
   }
 
   .golf-day {
+    width: 95%;
     max-width: 580px;
     height: 50vh;
     overflow-y: auto;

@@ -346,7 +346,7 @@ footer {
     background-size: fit;
   }
   .header {
-    max-width: 760px;
+    max-width: 680px;
   }
 
   .dave-photo {
@@ -387,7 +387,7 @@ footer {
   }
 
   .golf-day {
-    max-width: 760px;
+    max-width: 680px;
     height: 50vh;
     overflow-y: auto;
   }

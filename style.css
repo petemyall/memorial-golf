@@ -112,7 +112,7 @@ img {
   position: fixed;
   top: 1vh;
   right: 15%;
-  width: 120px;
+  width: 100px;
   height: auto;
   z-index: 1000;
 }

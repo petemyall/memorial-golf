@@ -352,6 +352,9 @@ footer {
     padding: 10px;
     border-radius: 6px;
   }
+  .home-container {
+      margin: 1px auto;
+      padding: 5px;
 
   .home-title {
       text-align: left;

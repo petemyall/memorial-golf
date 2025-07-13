@@ -341,7 +341,7 @@ footer {
   body {
     padding: 1px;
     font-size: 15px;
-    background-size: contain;
+    background-size: fit;
   }
 
   .dave-photo {

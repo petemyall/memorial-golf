@@ -352,6 +352,10 @@ footer {
     border-radius: 6px;
   }
 
+  .home-title {
+      text-align: left;
+      font-size: 15px;
+
   nav a {
     display: inline-block;
     margin-bottom: 10px;

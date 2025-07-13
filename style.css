@@ -356,6 +356,9 @@ footer {
       margin: 1px auto;
       padding: 5px;
   }
+  .home-header1 {
+    padding: 1px;
+  }
 
   .home-title {
       text-align: left;
@@ -390,5 +393,6 @@ footer {
 
   .link-box {
     flex: 1 1 30%;
+    padding: 5px;
     max-width: 30%
 }

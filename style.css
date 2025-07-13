@@ -362,16 +362,13 @@ footer {
       margin: 1px auto;
       padding: 5px;
   }
-   .home-header {
-    font-size: 25px;
-   }
   .home-header1 {
     padding: 1px;
   }
 
   .home-title {
       text-align: left;
-      font-size: 15px;
+      font-size: 25px;
   }
   
   .openGalleryBtn {

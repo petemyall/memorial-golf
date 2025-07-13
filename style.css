@@ -405,7 +405,7 @@ footer {
   }
 
   .link-box {
-    flex: 1 1 30%;
+    flex: 1 1 35%;
     padding: 5px;
-    max-width: 30%
+    max-width: 40%
 }

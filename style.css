@@ -376,6 +376,16 @@ footer {
     margin: 20px auto; /* top/bottom 20px, left/right auto = center */
     text-align: center;
   }
+   #openExtraBtn {
+     flex: 1 1 35%;
+    padding: 5px;
+    max-width: 40%
+   }
+   #openMapBtn {
+     flex: 1 1 35%;
+    padding: 5px;
+    max-width: 40%
+   }
   nav a {
     display: inline-block;
     margin-bottom: 10px;

@@ -110,7 +110,7 @@ img {
 /* Logo styling */
 .site-logo {
   position: fixed;
-  top: 1vh;
+  top: 1.5vh;
   right: 15%;
   width: 100px;
   height: auto;

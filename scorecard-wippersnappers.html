@@ -2,66 +2,135 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>New Kids Scorecard</title>
-  <link rel="stylesheet" href="style.css" />
+
   <style>
-    .scorecard {
-      overflow-x: auto;
-      margin-bottom: 30px;
+    :root{
+      --green:#2e7d32;
+      --line:#4CAF50;
+      --head-bg:rgba(148,232,255,0.5);
+      --card-bg:rgba(255,255,255,0.95);
+      --totals-bg:#e8f5e9;
     }
-    table {
+
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background:#f1f5f9;
+      color:#111;
+    }
+
+    .container{
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    h1{
+      margin: 0 0 12px;
+    }
+
+    .group-heading{
+      text-align:center;
+      font-size:1.25rem;
+      color:var(--green);
+      margin: 22px 0 10px;
+      font-weight:700;
+    }
+
+    .scorecard{
+      overflow-x:auto;
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      background:var(--card-bg);
+      padding: 10px;
+    }
+
+    table{
       border-collapse: collapse;
-      background-color: rgba(255,255,255,0.95);
       min-width: max-content;
+      width: 100%;
+      background:var(--card-bg);
     }
-    th, td {
-      border: 1px solid #4CAF50;
-      padding: 8px;
-      text-align: center;
+
+    th, td{
+      border:1px solid var(--line);
+      padding:8px;
+      text-align:center;
+      white-space:nowrap;
     }
-    th {
-      background-color: rgba(148,232,255,0.5);
-      color: #2e7d32;
-    }
-    input[type="number"] {
-      width: 50px;
-      padding: 4px;
-      text-align: center;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    .group-heading {
-      text-align: center;
-      font-size: 1.3em;
-      margin: 20px 0 10px;
-      color: #2e7d32;
-    }
-    .totals {
-      font-weight: bold;
-      background-color: #e8f5e9;
-    }
-    .button-reset {
-      margin: 10px auto;
-      display: block;
-      font-size: 1rem;
-      color: #2e7d32;
-      padding: 10px 20px;
-      background-color: rgba(148,232,255,0.7);
-      border-left: 6px solid #4CAF50;
-      border-radius: 10px;
-    }
-    td:first-child, th:first-child {
+
+    th{
+      background:var(--head-bg);
+      color:var(--green);
       position: sticky;
-      left: 0;
-      background-color: rgba(255,255,255,0.95);
-      z-index: 1;
+      top:0;
+      z-index:2;
+    }
+
+    td:first-child, th:first-child{
+      position: sticky;
+      left:0;
+      background:var(--card-bg);
+      z-index:3;
+    }
+
+    .name-input{
+      width: 140px;
+      max-width: 32vw;
+      padding:6px 8px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      text-align:center;
+    }
+
+    .score-input{
+      width:56px;
+      padding:4px;
+      text-align:center;
+      border-radius:6px;
+      border:1px solid #ccc;
+    }
+
+    .totals{
+      font-weight:700;
+      background:var(--totals-bg);
+    }
+
+    .buttons{
+      margin:16px 0 4px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    button{
+      cursor:pointer;
+      font-size:1rem;
+      padding:10px 18px;
+      color:var(--green);
+      background:rgba(148,232,255,0.7);
+      border-left:6px solid var(--line);
+      border:1px solid #9ad9ff;
+      border-radius:10px;
+    }
+    button.danger{
+      color:#7f1d1d;
+      background:#fee2e2;
+      border-color:#fecaca;
+      border-left-color:#ef4444;
+    }
+
+    @media (max-width:600px){
+      .name-input{ width:120px; }
+      .score-input{ width:48px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>New Kids Scorecard</h1>
+    <h1>Old Boys Scorecard</h1>
 
     <div class="group-heading">Old Course</div>
     <div class="scorecard" id="oldGroup"></div>
@@ -69,108 +138,167 @@
     <div class="group-heading">New Course</div>
     <div class="scorecard" id="newGroup"></div>
 
-    <button class="button-reset" onclick="resetScores()">Clear All Scores</button>
+    <div class="buttons">
+      <button onclick="resetScores()">Clear Scores (keep names)</button>
+      <button class="danger" onclick="clearEverything()">Clear EVERYTHING</button>
+    </div>
   </div>
 
   <script>
-    const players = ["Dave", "Jack", "Rich", "Wayne"];
+    // ------ Settings ------
+    const NUM_PLAYERS = 4;   // change if you want more/less rows
+    const HOLES_PER_SIDE = 9;
+    // ----------------------
 
-    function createTable(containerId, roundPrefix) {
-      const div = document.getElementById(containerId);
+    // Build one table (Old / New)
+    function createTable(containerId, roundPrefix){
+      const container = document.getElementById(containerId);
+
       const table = document.createElement('table');
       const thead = document.createElement('thead');
       const tbody = document.createElement('tbody');
 
-      const headerRow = document.createElement('tr');
-      headerRow.innerHTML = '<th>Player</th>' +
-        Array.from({length: 9}, (_, i) => `<th>${i+1}</th>`).join('') +
-        '<th>Subtotal</th>';
-      thead.appendChild(headerRow);
+      // Header row
+      const hdr = document.createElement('tr');
+      hdr.innerHTML = `<th>Player</th>${
+        Array.from({length: HOLES_PER_SIDE}, (_,i)=>`<th>${i+1}</th>`).join('')
+      }<th>Subtotal</th>`;
+      thead.appendChild(hdr);
 
-      players.forEach(name => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${name}</td>`;
+      // Player rows
+      for(let p=0; p<NUM_PLAYERS; p++){
+        const tr = document.createElement('tr');
 
-        for (let i = 0; i < 9; i++) {
-          const input = document.createElement('input');
-          input.type = 'number';
-          input.min = 1;
-          input.max = 20;
-          input.dataset.player = name;
-          input.dataset.round = roundPrefix;
-          input.dataset.hole = i;
-          input.addEventListener('input', updateScores);
+        // Name cell (empty input)
+        const nameTd = document.createElement('td');
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.placeholder = 'Enter name';
+        nameInput.className = 'name-input';
+        nameInput.dataset.playerIndex = String(p);
+        nameInput.addEventListener('input', onNameChange);
+        nameTd.appendChild(nameInput);
+        tr.appendChild(nameTd);
+
+        // Hole inputs
+        for(let h=0; h<HOLES_PER_SIDE; h++){
           const td = document.createElement('td');
-          td.appendChild(input);
-          row.appendChild(td);
+          const inp = document.createElement('input');
+          inp.type = 'number';
+          inp.min = '1';
+          inp.max = '20';
+          inp.step = '1';
+          inp.className = 'score-input';
+          inp.dataset.playerIndex = String(p);
+          inp.dataset.round = roundPrefix;
+          inp.dataset.hole = String(h);
+          inp.addEventListener('input', updateScores);
+          td.appendChild(inp);
+          tr.appendChild(td);
         }
 
-        const totalCell = document.createElement('td');
-        totalCell.className = 'totals';
-        totalCell.textContent = '0';
-        totalCell.dataset.player = name;
-        totalCell.dataset.round = roundPrefix;
-        row.appendChild(totalCell);
+        // subtotal cell
+        const totalTd = document.createElement('td');
+        totalTd.className = 'totals';
+        totalTd.dataset.playerIndex = String(p);
+        totalTd.dataset.round = roundPrefix;
+        totalTd.textContent = '0';
+        tr.appendChild(totalTd);
 
-        tbody.appendChild(row);
-      });
+        tbody.appendChild(tr);
+      }
 
       table.appendChild(thead);
       table.appendChild(tbody);
-      div.appendChild(table);
+      container.innerHTML = ''; // ensure empty
+      container.appendChild(table);
     }
 
-    function updateScores() {
-      const scores = {};
-      players.forEach(name => scores[name] = { old: 0, new: 0 });
+    // Save & sync player names
+    function onNameChange(e){
+      const idx = e.target.dataset.playerIndex;
+      const value = e.target.value || '';
+      localStorage.setItem(`player_${idx}_name`, value);
 
-      document.querySelectorAll('input[type="number"]').forEach(input => {
-        const val = parseInt(input.value);
-        if (!isNaN(val)) {
-          const name = input.dataset.player;
-          const round = input.dataset.round;
-          const hole = input.dataset.hole;
-          scores[name][round] += val;
-          const key = `${name}_${round}_${hole}`;
-          localStorage.setItem(key, val);
+      // Mirror name across both tables (same player index)
+      document.querySelectorAll(`.name-input[data-player-index="${idx}"]`)
+        .forEach(el => { if(el !== e.target) el.value = value; });
+    }
+
+    // Update totals and persist scores
+    function updateScores(){
+      // Compute fresh totals
+      const totals = {}; // totals[idx][round]
+      for(let p=0; p<NUM_PLAYERS; p++){
+        totals[p] = { old:0, new:0 };
+      }
+
+      document.querySelectorAll('.score-input').forEach(inp=>{
+        const val = parseInt(inp.value, 10);
+        const idx = inp.dataset.playerIndex;
+        const rnd = inp.dataset.round;
+        const hole = inp.dataset.hole;
+
+        // save or clear storage
+        const key = `p${idx}_${rnd}_h${hole}`;
+        if(!isNaN(val)){
+          localStorage.setItem(key, String(val));
+          totals[idx][rnd] += val;
+        }else{
+          localStorage.removeItem(key);
         }
       });
 
-      document.querySelectorAll('.totals').forEach(cell => {
-        const name = cell.dataset.player;
-        const round = cell.dataset.round;
-        cell.textContent = scores[name][round];
+      // Write totals
+      document.querySelectorAll('.totals').forEach(cell=>{
+        const idx = cell.dataset.playerIndex;
+        const rnd = cell.dataset.round;
+        cell.textContent = totals[idx][rnd];
       });
     }
 
-    function resetScores() {
-      document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.value = '';
-        const name = input.dataset.player;
-        const round = input.dataset.round;
-        const hole = input.dataset.hole;
-        localStorage.removeItem(`${name}_${round}_${hole}`);
+    // Clear only scores
+    function resetScores(){
+      document.querySelectorAll('.score-input').forEach(inp=>{
+        inp.value = '';
+        const key = `p${inp.dataset.playerIndex}_${inp.dataset.round}_h${inp.dataset.hole}`;
+        localStorage.removeItem(key);
       });
       updateScores();
     }
 
-    function restoreScores() {
-      document.querySelectorAll('input[type="number"]').forEach(input => {
-        const name = input.dataset.player;
-        const round = input.dataset.round;
-        const hole = input.dataset.hole;
-        const key = `${name}_${round}_${hole}`;
+    // Clear names + scores
+    function clearEverything(){
+      for(let p=0;p<NUM_PLAYERS;p++){
+        localStorage.removeItem(`player_${p}_name`);
+      }
+      resetScores();
+      document.querySelectorAll('.name-input').forEach(inp=> inp.value = '');
+    }
+
+    // Restore names & scores from localStorage
+    function restoreAll(){
+      // names
+      document.querySelectorAll('.name-input').forEach(inp=>{
+        const idx = inp.dataset.playerIndex;
+        const saved = localStorage.getItem(`player_${idx}_name`);
+        if(saved !== null) inp.value = saved;
+      });
+
+      // scores
+      document.querySelectorAll('.score-input').forEach(inp=>{
+        const key = `p${inp.dataset.playerIndex}_${inp.dataset.round}_h${inp.dataset.hole}`;
         const saved = localStorage.getItem(key);
-        if (saved !== null) {
-          input.value = saved;
-        }
+        if(saved !== null) inp.value = saved;
       });
+
       updateScores();
     }
 
+    // Build both tables and restore
     createTable('oldGroup', 'old');
     createTable('newGroup', 'new');
-    restoreScores();
+    restoreAll();
   </script>
 </body>
 </html>

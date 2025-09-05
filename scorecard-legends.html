@@ -85,7 +85,17 @@
 
       players.forEach(name => {
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${name}</td>`;
+        players.forEach(name => {
+  const row = document.createElement('tr');
+
+  // Create an empty input for the player name
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Enter name';
+
+  const nameCell = document.createElement('td');
+  nameCell.appendChild(nameInput);
+  row.appendChild(nameCell);
 
         for (let i = 0; i < 9; i++) {
           const input = document.createElement('input');

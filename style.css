@@ -402,6 +402,12 @@ footer {
     width: 40% !important;   /* same width on both */
     max-width: 320px;
   }
+  .holder-frame img {
+    width: 80%;       /* shrink just the holder image */
+    height: auto;     /* keep proportions */
+    margin: 0 auto;   /* keep it centered */
+    display: block;   /* ensures margin auto centers */
+  }
 
   .container {
     padding: 10px;

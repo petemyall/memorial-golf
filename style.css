@@ -399,7 +399,7 @@ footer {
 
   .dave-photo,
   .holder-frame {
-    width: 45% !important;   /* same width on both */
+    width: 40% !important;   /* same width on both */
     max-width: 320px;
   }
 

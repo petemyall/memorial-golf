@@ -388,8 +388,15 @@ footer {
     max-width: 580px;
   }
 
-  .dave-photo {
-    width: 90px;
+  .photo-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dave-photo,
+  .holder-frame {
+    width: 85% !important;   /* same width on both */
+    max-width: 320px;
   }
 
   .container {

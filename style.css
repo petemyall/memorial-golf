@@ -419,9 +419,12 @@ footer {
   }
   .home-header1 {
     padding: 1px;
-    font-size: 10px;
+    font-size: 12px;
   }
-
+  .link-box {
+    padding: 1px;
+   font-size: 12px;
+  }
   .home-title {
       text-align: left;
       font-size: 20px;
